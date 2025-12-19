@@ -5,54 +5,54 @@ import Dashboard from './components/Dashboard'
 import Appointments from './components/Appointments'
 import MedicalHistory from './components/MedicalHistory'
 import Reports from './components/Reports'
+import { petAPI, appointmentAPI, medicalAPI } from './services/api'
 import './App.css'
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard')
-  const [pets, setPets] = useState(() => {
-    const saved = localStorage.getItem('petpals-pets')
-    return saved ? JSON.parse(saved) : []
-  })
-  const [appointments, setAppointments] = useState(() => {
-    const saved = localStorage.getItem('petpals-appointments')
-    return saved ? JSON.parse(saved) : []
-  })
-  const [medicalRecords, setMedicalRecords] = useState(() => {
-    const saved = localStorage.getItem('petpals-medical')
-    return saved ? JSON.parse(saved) : []
-  })
+  const [pets, setPets] = useState([])
+  const [appointments, setAppointments] = useState([])
+  const [medicalRecords, setMedicalRecords] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
-    localStorage.setItem('petpals-pets', JSON.stringify(pets))
-  }, [pets])
-
-  useEffect(() => {
-    localStorage.setItem('petpals-appointments', JSON.stringify(appointments))
-  }, [appointments])
-
-  useEffect(() => {
-    localStorage.setItem('petpals-medical', JSON.stringify(medicalRecords))
-  }, [medicalRecords])
+    const loadData = async () => {
+      try {
+        console.log('Loading data from API...')
+        const [petsData, appointmentsData, medicalData] = await Promise.all([
+          petAPI.getAll(),
+          appointmentAPI.getAll(),
+          medicalAPI.getAll()
+        ])
+        console.log('Data loaded:', { petsData, appointmentsData, medicalData })
+        setPets(petsData)
+        setAppointments(appointmentsData)
+        setMedicalRecords(medicalData)
+      } catch (error) {
+        console.error('Error loading data:', error)
+      }
+    }
+    loadData()
+  }, [])
 
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-    { id: 'pets', label: 'Pets', icon: '🐾' },
-    { id: 'appointments', label: 'Appointments', icon: '📅' },
-    { id: 'medical', label: 'Medical', icon: '🏥' },
-    { id: 'reports', label: 'Reports', icon: '📈' }
+    { id: 'dashboard', label: 'Dashboard' },
+    { id: 'pets', label: 'Pets' },
+    { id: 'appointments', label: 'Appointments' },
+    { id: 'medical', label: 'Medical' },
+    { id: 'reports', label: 'Reports' }
   ]
 
   return (
     <div className={`app ${darkMode ? 'dark' : ''}`}>
       <header className="header">
         <div className="header-top">
-          <h1>🐾 PetPals Management System</h1>
+          <h1>PetPals Management System</h1>
           <div className="header-controls">
             <input
               type="text"
-              placeholder="🔍 Search pets, owners..."
+              placeholder="Search pets, owners..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
@@ -61,7 +61,7 @@ function App() {
               className="theme-toggle"
               onClick={() => setDarkMode(!darkMode)}
             >
-              {darkMode ? '☀️' : '🌙'}
+              {darkMode ? 'Light' : 'Dark'}
             </button>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { petAPI } from '../services/api'
 
 const PetForm = ({ pets, setPets }) => {
   const [formData, setFormData] = useState({
@@ -7,18 +8,20 @@ const PetForm = ({ pets, setPets }) => {
     isConsulted: false, lastConsultDate: '', nextConsultDate: ''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setPets([...pets, { 
-      id: Date.now(), 
-      ...formData, 
-      createdAt: new Date().toISOString() 
-    }])
-    setFormData({
-      name: '', species: '', breed: '', age: '', owner: '', ownerPhone: '',
-      doctor: '', dutyInCharge: '', isVaccinated: false, vaccinationDate: '',
-      isConsulted: false, lastConsultDate: '', nextConsultDate: ''
-    })
+    try {
+      const newPet = await petAPI.create(formData)
+      setPets([...pets, newPet])
+      setFormData({
+        name: '', species: '', breed: '', age: '', owner: '', ownerPhone: '',
+        doctor: '', dutyInCharge: '', isVaccinated: false, vaccinationDate: '',
+        isConsulted: false, lastConsultDate: '', nextConsultDate: ''
+      })
+    } catch (error) {
+      console.error('Error creating pet:', error)
+      alert('Failed to create pet. Please try again.')
+    }
   }
 
   const handleChange = (e) => {
@@ -28,7 +31,7 @@ const PetForm = ({ pets, setPets }) => {
 
   return (
     <div className="form-container">
-      <h2>🐾 Add New Pet</h2>
+      <h2>Add New Pet</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <input 
@@ -41,11 +44,11 @@ const PetForm = ({ pets, setPets }) => {
           />
           <select name="species" value={formData.species} onChange={handleChange} required>
             <option value="">Select Species</option>
-            <option value="Dog">🐕 Dog</option>
-            <option value="Cat">🐱 Cat</option>
-            <option value="Bird">🦜 Bird</option>
-            <option value="Rabbit">🐰 Rabbit</option>
-            <option value="Other">🐾 Other</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Bird">Bird</option>
+            <option value="Rabbit">Rabbit</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         
@@ -85,24 +88,22 @@ const PetForm = ({ pets, setPets }) => {
         </div>
         
         <div className="form-row">
-          <input 
-            type="text" 
-            name="doctor" 
-            placeholder="Assigned Doctor" 
-            value={formData.doctor} 
-            onChange={handleChange} 
-          />
-          <input 
-            type="text" 
-            name="dutyInCharge" 
-            placeholder="Duty In-Charge" 
-            value={formData.dutyInCharge} 
-            onChange={handleChange} 
-          />
+          <select name="doctor" value={formData.doctor} onChange={handleChange}>
+            <option value="">Select Doctor</option>
+            <option value="Johnson">Dr. Johnson</option>
+            <option value="Thilagam">Dr. Thilagam</option>
+            <option value="Rohini">Dr. Rohini</option>
+          </select>
+          <select name="dutyInCharge" value={formData.dutyInCharge} onChange={handleChange}>
+            <option value="">Select In-Charge</option>
+            <option value="Rani">Rani</option>
+            <option value="Prabu">Prabu</option>
+            <option value="Devi">Devi</option>
+          </select>
         </div>
         
         <div className="checkbox-section">
-          <h4>🏥 Medical Status</h4>
+          <h4>Medical Status</h4>
           <div className="checkbox-row">
             <label>
               <input 
@@ -111,7 +112,7 @@ const PetForm = ({ pets, setPets }) => {
                 checked={formData.isVaccinated} 
                 onChange={handleChange} 
               />
-              <span>💉 Vaccinated</span>
+              <span>Vaccinated</span>
             </label>
             <label>
               <input 
@@ -120,14 +121,14 @@ const PetForm = ({ pets, setPets }) => {
                 checked={formData.isConsulted} 
                 onChange={handleChange} 
               />
-              <span>👨⚕️ Consulted</span>
+              <span>Consulted</span>
             </label>
           </div>
         </div>
         
         {formData.isVaccinated && (
           <div className="conditional-section">
-            <h4>💉 Vaccination Details</h4>
+            <h4>Vaccination Details</h4>
             <label className="form-label">Vaccination Date</label>
             <input 
               type="date" 
@@ -140,7 +141,7 @@ const PetForm = ({ pets, setPets }) => {
         
         {formData.isConsulted && (
           <div className="conditional-section">
-            <h4>👨⚕️ Consultation Details</h4>
+            <h4>Consultation Details</h4>
             <div className="form-row">
               <div>
                 <label className="form-label">Last Consultation Date</label>

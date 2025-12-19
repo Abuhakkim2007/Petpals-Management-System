@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { appointmentAPI } from '../services/api'
 
 const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
   const [showForm, setShowForm] = useState(false)
@@ -6,39 +7,50 @@ const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
     petId: '', date: '', time: '', type: '', doctor: '', notes: '', status: 'scheduled'
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const selectedPet = pets.find(pet => pet.id === parseInt(formData.petId))
-    setAppointments([...appointments, {
-      id: Date.now(),
-      ...formData,
-      petName: selectedPet?.name,
-      petOwner: selectedPet?.owner,
-      createdAt: new Date().toISOString()
-    }])
-    setFormData({
-      petId: '', date: '', time: '', type: '', doctor: '', notes: '', status: 'scheduled'
-    })
-    setShowForm(false)
+    try {
+      const newAppointment = await appointmentAPI.create(formData)
+      setAppointments([...appointments, newAppointment])
+      setFormData({
+        petId: '', date: '', time: '', type: '', doctor: '', notes: '', status: 'scheduled'
+      })
+      setShowForm(false)
+    } catch (error) {
+      console.error('Error creating appointment:', error)
+      alert('Failed to create appointment. Please try again.')
+    }
   }
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const updateStatus = (id, status) => {
-    setAppointments(appointments.map(apt => 
-      apt.id === id ? { ...apt, status } : apt
-    ))
+  const updateStatus = async (id, status) => {
+    try {
+      const updatedAppointment = await appointmentAPI.update(id, { status })
+      setAppointments(appointments.map(apt => 
+        apt._id === id ? updatedAppointment : apt
+      ))
+    } catch (error) {
+      console.error('Error updating appointment:', error)
+      alert('Failed to update appointment. Please try again.')
+    }
   }
 
-  const deleteAppointment = (id) => {
-    setAppointments(appointments.filter(apt => apt.id !== id))
+  const deleteAppointment = async (id) => {
+    try {
+      await appointmentAPI.delete(id)
+      setAppointments(appointments.filter(apt => apt._id !== id))
+    } catch (error) {
+      console.error('Error deleting appointment:', error)
+      alert('Failed to delete appointment. Please try again.')
+    }
   }
 
   const filteredAppointments = appointments.filter(apt =>
-    apt.petName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    apt.petOwner?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    apt.petId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    apt.petId?.owner?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     apt.doctor?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -49,12 +61,12 @@ const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
   return (
     <div className="appointments">
       <div className="section-header">
-        <h2>📅 Appointments Management</h2>
+        <h2>Appointments Management</h2>
         <button 
           className="add-btn"
           onClick={() => setShowForm(!showForm)}
         >
-          {showForm ? '❌ Cancel' : '➕ New Appointment'}
+          {showForm ? 'Cancel' : 'New Appointment'}
         </button>
       </div>
 
@@ -66,7 +78,7 @@ const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
               <select name="petId" value={formData.petId} onChange={handleChange} required>
                 <option value="">Select Pet</option>
                 {pets.map(pet => (
-                  <option key={pet.id} value={pet.id}>{pet.name} - {pet.owner}</option>
+                  <option key={pet._id} value={pet._id}>{pet.name} - {pet.owner}</option>
                 ))}
               </select>
               <select name="type" value={formData.type} onChange={handleChange} required>
@@ -97,22 +109,12 @@ const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
               />
             </div>
             
-            <input 
-              type="text" 
-              name="doctor" 
-              placeholder="Doctor Name" 
-              value={formData.doctor} 
-              onChange={handleChange} 
-              required 
-            />
-            
-            <textarea 
-              name="notes" 
-              placeholder="Appointment notes..." 
-              value={formData.notes} 
-              onChange={handleChange} 
-              rows="3"
-            />
+            <select name="doctor" value={formData.doctor} onChange={handleChange} required>
+              <option value="">Select Doctor</option>
+              <option value="Johnson">Dr. Johnson</option>
+              <option value="Thilagam">Dr. Thilagam</option>
+              <option value="Rohini">Dr. Rohini</option>
+            </select>
             
             <button type="submit">Schedule Appointment</button>
           </form>
@@ -126,16 +128,16 @@ const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
         ) : (
           <div className="appointments-grid">
             {sortedAppointments.map(apt => (
-              <div key={apt.id} className={`appointment-card ${apt.status}`}>
+              <div key={apt._id} className={`appointment-card ${apt.status}`}>
                 <div className="appointment-header">
                   <div className="appointment-info">
-                    <h4>{apt.petName}</h4>
+                    <h4>{apt.petId?.name || 'Unknown Pet'}</h4>
                     <span className="appointment-type">{apt.type}</span>
                   </div>
                   <div className="appointment-actions">
                     <select 
                       value={apt.status} 
-                      onChange={(e) => updateStatus(apt.id, e.target.value)}
+                      onChange={(e) => updateStatus(apt._id, e.target.value)}
                       className="status-select"
                     >
                       <option value="scheduled">Scheduled</option>
@@ -144,20 +146,19 @@ const Appointments = ({ pets, appointments, setAppointments, searchTerm }) => {
                       <option value="no-show">No Show</option>
                     </select>
                     <button 
-                      onClick={() => deleteAppointment(apt.id)}
+                      onClick={() => deleteAppointment(apt._id)}
                       className="delete-btn"
                     >
-                      🗑️
+                      Delete
                     </button>
                   </div>
                 </div>
                 
                 <div className="appointment-details">
-                  <p><strong>📅 Date:</strong> {new Date(apt.date).toLocaleDateString()}</p>
-                  <p><strong>⏰ Time:</strong> {apt.time}</p>
-                  <p><strong>👤 Owner:</strong> {apt.petOwner}</p>
-                  <p><strong>👨⚕️ Doctor:</strong> {apt.doctor}</p>
-                  {apt.notes && <p><strong>📝 Notes:</strong> {apt.notes}</p>}
+                  <p><strong>Date:</strong> <span>{new Date(apt.date).toLocaleDateString()}</span></p>
+                  <p><strong>Time:</strong> <span>{apt.time}</span></p>
+                  <p><strong>Owner:</strong> <span>{apt.petId?.owner || 'Unknown Owner'}</span></p>
+                  <p><strong>Doctor:</strong> <span>{apt.doctor}</span></p>
                 </div>
                 
                 <div className={`status-badge ${apt.status}`}>

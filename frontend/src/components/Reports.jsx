@@ -107,7 +107,7 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
   return (
     <div className="reports">
       <div className="section-header">
-        <h2>📊 Reports & Analytics</h2>
+        <h2>Reports & Analytics</h2>
         <div className="report-controls">
           <select 
             value={reportType} 
@@ -119,7 +119,7 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
             <option value="financial">Financial Report</option>
           </select>
           <button onClick={exportReport} className="export-btn">
-            📥 Export Report
+            Export Report
           </button>
         </div>
       </div>
@@ -128,7 +128,7 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
         <div className="report-content">
           <div className="report-stats">
             <div className="stat-card">
-              <h3>📊 General Statistics</h3>
+              <h3>General Statistics</h3>
               <div className="stat-grid">
                 <div className="stat-item">
                   <span className="stat-number">{overviewData.totalPets}</span>
@@ -150,7 +150,7 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
             </div>
 
             <div className="stat-card">
-              <h3>🐾 Species Breakdown</h3>
+              <h3>Species Breakdown</h3>
               <div className="species-chart">
                 {Object.entries(overviewData.speciesBreakdown).map(([species, count]) => (
                   <div key={species} className="species-item">
@@ -174,7 +174,7 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
         <div className="report-content">
           <div className="vaccination-stats">
             <div className="stat-card">
-              <h3>💉 Vaccination Status</h3>
+              <h3>Vaccination Status</h3>
               <div className="vaccination-breakdown">
                 <div className="vaccination-item vaccinated">
                   <span className="count">{vaccinationData.vaccinated.length}</span>
@@ -192,10 +192,10 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
             </div>
 
             <div className="stat-card">
-              <h3>⚠️ Pets Needing Vaccination</h3>
+              <h3>Pets Needing Vaccination</h3>
               <div className="pets-list">
                 {vaccinationData.notVaccinated.length === 0 ? (
-                  <p className="no-data">All pets are vaccinated! 🎉</p>
+                  <p className="no-data">All pets are vaccinated!</p>
                 ) : (
                   vaccinationData.notVaccinated.map(pet => (
                     <div key={pet.id} className="pet-item">
@@ -214,14 +214,14 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
         <div className="report-content">
           <div className="financial-stats">
             <div className="stat-card">
-              <h3>💰 Financial Overview</h3>
+              <h3>Financial Overview</h3>
               <div className="financial-summary">
                 <div className="financial-item">
-                  <span className="amount">${financialData.totalRevenue.toFixed(2)}</span>
+                  <span className="amount">₹{financialData.totalRevenue.toFixed(2)}</span>
                   <span className="label">Total Revenue</span>
                 </div>
                 <div className="financial-item">
-                  <span className="amount">${financialData.averageVisitCost}</span>
+                  <span className="amount">₹{financialData.averageVisitCost}</span>
                   <span className="label">Average Visit Cost</span>
                 </div>
                 <div className="financial-item">
@@ -232,12 +232,12 @@ const Reports = ({ pets, appointments, medicalRecords }) => {
             </div>
 
             <div className="stat-card">
-              <h3>📈 Revenue by Service Type</h3>
+              <h3>Revenue by Service Type</h3>
               <div className="revenue-breakdown">
                 {Object.entries(financialData.revenueByType).map(([type, revenue]) => (
                   <div key={type} className="revenue-item">
                     <span className="service-type">{type}</span>
-                    <span className="service-revenue">${revenue.toFixed(2)}</span>
+                    <span className="service-revenue">₹{revenue.toFixed(2)}</span>
                   </div>
                 ))}
               </div>

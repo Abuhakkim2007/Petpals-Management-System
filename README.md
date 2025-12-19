@@ -1,16 +1,123 @@
-# React + Vite
+# PetPals Management System - MERN Stack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack pet management system built with MongoDB, Express, React, and Node.js.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+mernpjt/
+├── backend/          # Backend API (Node.js + Express + MongoDB)
+│   ├── models/       # MongoDB schemas
+│   ├── routes/       # API routes
+│   ├── .env          # Environment variables
+│   └── server.js     # Express server
+├── frontend/         # Frontend (React + Vite)
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── services/    # API service layer
+│   │   └── App.jsx      # Main app component
+│   └── package.json
+└── package.json      # Root package.json
+```
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js (v22.12+ recommended)
+- MongoDB (running on localhost:27017)
+- npm or yarn
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Option 1: Quick Start (Recommended)
+```bash
+# Run the batch file
+start-dev.bat
+```
+
+### Option 2: Manual Setup
+
+1. **Install Backend Dependencies**
+```bash
+cd backend
+npm install
+```
+
+2. **Install Frontend Dependencies**
+```bash
+cd frontend
+npm install
+```
+
+3. **Start Backend Server**
+```bash
+cd backend
+npm run dev
+```
+Backend runs on: http://localhost:5001
+
+4. **Start Frontend Server** (in new terminal)
+```bash
+cd frontend
+npm run dev
+```
+Frontend runs on: http://localhost:5173
+
+## Environment Variables
+
+Backend `.env` file:
+```
+PORT=5001
+MONGODB_URI=mongodb://localhost:27017/mernpjt
+NODE_ENV=development
+```
+
+## API Endpoints
+
+### Pets
+- GET `/api/pets` - Get all pets
+- POST `/api/pets` - Create new pet
+- DELETE `/api/pets/:id` - Delete pet
+
+### Appointments
+- GET `/api/appointments` - Get all appointments
+- POST `/api/appointments` - Create appointment
+- PUT `/api/appointments/:id` - Update appointment
+- DELETE `/api/appointments/:id` - Delete appointment
+
+### Medical History
+- GET `/api/medical-history` - Get all records
+- POST `/api/medical-history` - Create record
+- DELETE `/api/medical-history/:id` - Delete record
+
+## Features
+
+- Pet registration and management
+- Appointment scheduling
+- Medical history tracking
+- Dashboard with statistics
+- Reports generation
+- Search functionality
+- Dark mode support
+
+## Tech Stack
+
+**Frontend:**
+- React 19
+- Vite
+- CSS3
+
+**Backend:**
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+
+## Database Connection
+
+The application connects to MongoDB at `mongodb://localhost:27017/mernpjt`. Make sure MongoDB is running before starting the servers.
+
+## Troubleshooting
+
+1. **MongoDB Connection Error**: Ensure MongoDB is running
+2. **Port Already in Use**: Change ports in `.env` (backend) or `vite.config.js` (frontend)
+3. **CORS Error**: Backend CORS is configured for `http://localhost:5173`

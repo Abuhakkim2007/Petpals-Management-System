@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { medicalAPI } from '../services/api'
 
 const MedicalHistory = ({ pets, medicalRecords, setMedicalRecords, searchTerm }) => {
   const [showForm, setShowForm] = useState(false)
@@ -6,33 +7,38 @@ const MedicalHistory = ({ pets, medicalRecords, setMedicalRecords, searchTerm })
     petId: '', date: '', type: '', diagnosis: '', treatment: '', doctor: '', cost: '', notes: ''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const selectedPet = pets.find(pet => pet.id === parseInt(formData.petId))
-    setMedicalRecords([...medicalRecords, {
-      id: Date.now(),
-      ...formData,
-      petName: selectedPet?.name,
-      petOwner: selectedPet?.owner,
-      createdAt: new Date().toISOString()
-    }])
-    setFormData({
-      petId: '', date: '', type: '', diagnosis: '', treatment: '', doctor: '', cost: '', notes: ''
-    })
-    setShowForm(false)
+    try {
+      const newRecord = await medicalAPI.create(formData)
+      setMedicalRecords([...medicalRecords, newRecord])
+      setFormData({
+        petId: '', date: '', type: '', diagnosis: '', treatment: '', doctor: '', cost: '', notes: ''
+      })
+      setShowForm(false)
+    } catch (error) {
+      console.error('Error creating medical record:', error)
+      alert('Failed to create medical record. Please try again.')
+    }
   }
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const deleteRecord = (id) => {
-    setMedicalRecords(medicalRecords.filter(record => record.id !== id))
+  const deleteRecord = async (id) => {
+    try {
+      await medicalAPI.delete(id)
+      setMedicalRecords(medicalRecords.filter(record => record._id !== id))
+    } catch (error) {
+      console.error('Error deleting medical record:', error)
+      alert('Failed to delete medical record. Please try again.')
+    }
   }
 
   const filteredRecords = medicalRecords.filter(record =>
-    record.petName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    record.petOwner?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    record.petId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    record.petId?.owner?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     record.diagnosis?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -43,12 +49,12 @@ const MedicalHistory = ({ pets, medicalRecords, setMedicalRecords, searchTerm })
   return (
     <div className="medical-history">
       <div className="section-header">
-        <h2>🏥 Medical History</h2>
+        <h2>Medical History</h2>
         <button 
           className="add-btn"
           onClick={() => setShowForm(!showForm)}
         >
-          {showForm ? '❌ Cancel' : '➕ Add Record'}
+          {showForm ? 'Cancel' : 'Add Record'}
         </button>
       </div>
 
@@ -60,7 +66,7 @@ const MedicalHistory = ({ pets, medicalRecords, setMedicalRecords, searchTerm })
               <select name="petId" value={formData.petId} onChange={handleChange} required>
                 <option value="">Select Pet</option>
                 {pets.map(pet => (
-                  <option key={pet.id} value={pet.id}>{pet.name} - {pet.owner}</option>
+                  <option key={pet._id} value={pet._id}>{pet.name} - {pet.owner}</option>
                 ))}
               </select>
               <input 
@@ -83,51 +89,23 @@ const MedicalHistory = ({ pets, medicalRecords, setMedicalRecords, searchTerm })
                 <option value="dental">Dental Care</option>
                 <option value="emergency">Emergency Visit</option>
               </select>
-              <input 
-                type="text" 
-                name="doctor" 
-                placeholder="Doctor Name" 
-                value={formData.doctor} 
-                onChange={handleChange} 
-                required 
-              />
+              <select name="doctor" value={formData.doctor} onChange={handleChange} required>
+                <option value="">Select Doctor</option>
+                <option value="Johnson">Dr. Johnson</option>
+                <option value="Thilagam">Dr. Thilagam</option>
+                <option value="Rohini">Dr. Rohini</option>
+              </select>
             </div>
             
-            <textarea 
-              name="diagnosis" 
-              placeholder="Diagnosis and findings..." 
-              value={formData.diagnosis} 
+            <input 
+              type="number" 
+              name="cost" 
+              placeholder="Cost (₹)" 
+              value={formData.cost} 
               onChange={handleChange} 
-              rows="3"
-              required 
+              step="0.01"
+              min="0"
             />
-            
-            <textarea 
-              name="treatment" 
-              placeholder="Treatment provided..." 
-              value={formData.treatment} 
-              onChange={handleChange} 
-              rows="2"
-            />
-            
-            <div className="form-row">
-              <input 
-                type="number" 
-                name="cost" 
-                placeholder="Cost ($)" 
-                value={formData.cost} 
-                onChange={handleChange} 
-                step="0.01"
-                min="0"
-              />
-              <textarea 
-                name="notes" 
-                placeholder="Additional notes..." 
-                value={formData.notes} 
-                onChange={handleChange} 
-                rows="2"
-              />
-            </div>
             
             <button type="submit">Add Record</button>
           </form>
@@ -141,34 +119,27 @@ const MedicalHistory = ({ pets, medicalRecords, setMedicalRecords, searchTerm })
         ) : (
           <div className="records-grid">
             {sortedRecords.map(record => (
-              <div key={record.id} className="record-card">
+              <div key={record._id} className="record-card">
                 <div className="record-header">
                   <div className="record-info">
-                    <h4>{record.petName}</h4>
+                    <h4>{record.petId?.name || 'Unknown Pet'}</h4>
                     <span className={`record-type ${record.type}`}>
                       {record.type}
                     </span>
                   </div>
                   <button 
-                    onClick={() => deleteRecord(record.id)}
+                    onClick={() => deleteRecord(record._id)}
                     className="delete-btn"
                   >
-                    🗑️
+                    Delete
                   </button>
                 </div>
                 
                 <div className="record-details">
-                  <p><strong>📅 Date:</strong> {new Date(record.date).toLocaleDateString()}</p>
-                  <p><strong>👨⚕️ Doctor:</strong> {record.doctor}</p>
-                  <p><strong>🔍 Diagnosis:</strong> {record.diagnosis}</p>
-                  {record.treatment && (
-                    <p><strong>💊 Treatment:</strong> {record.treatment}</p>
-                  )}
+                  <p><strong>Date:</strong> <span>{new Date(record.date).toLocaleDateString()}</span></p>
+                  <p><strong>Doctor:</strong> <span>{record.doctor}</span></p>
                   {record.cost && (
-                    <p><strong>💰 Cost:</strong> ${parseFloat(record.cost).toFixed(2)}</p>
-                  )}
-                  {record.notes && (
-                    <p><strong>📝 Notes:</strong> {record.notes}</p>
+                    <p><strong>Cost:</strong> <span>₹{parseFloat(record.cost).toFixed(2)}</span></p>
                   )}
                 </div>
               </div>

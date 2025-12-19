@@ -1,0 +1,1054 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2563eb;
+  --secondary: #64748b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
+  --light: #f8fafc;
+  --dark: #1e293b;
+  --border: #e2e8f0;
+  --radius: 8px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #f8fafc;
+  color: #334155;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.header {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px 32px;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-top h1 {
+  color: var(--dark);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.header-controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.search-input {
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  width: 280px;
+  outline: none;
+  transition: all 0.2s;
+  background: white;
+}
+
+.search-input::placeholder {
+  color: var(--secondary);
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+}
+
+.theme-toggle {
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  color: var(--secondary);
+}
+
+.theme-toggle:hover {
+  background: var(--light);
+  border-color: var(--primary);
+}
+
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  background: var(--light);
+  padding: 4px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  font-size: 14px;
+  min-width: 120px;
+  justify-content: center;
+  color: var(--secondary);
+}
+
+.nav-tab:hover {
+  background: white;
+  color: var(--dark);
+}
+
+.nav-tab.active {
+  background: var(--primary);
+  color: white;
+}
+
+.main {
+  display: grid;
+  gap: 24px;
+}
+
+.pets-section {
+  display: grid;
+  gap: 24px;
+}
+
+.form-container {
+  background: white;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.form-container:hover {
+  border-color: var(--primary);
+}
+
+.form-container h2, .form-container h3 {
+  margin-bottom: 24px;
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--dark);
+  font-size: 14px;
+}
+
+.conditional-section {
+  background: var(--light);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.conditional-section h4 {
+  color: var(--dark);
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.checkbox-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.checkbox-section {
+  background: var(--light);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.checkbox-section h4 {
+  color: var(--dark);
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.checkbox-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  transition: all 0.2s;
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--dark);
+}
+
+.checkbox-row label:hover {
+  border-color: var(--primary);
+  background: #f1f5f9;
+}
+
+.checkbox-row input[type="checkbox"]:checked + span {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+
+input, select, textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  transition: all 0.2s;
+  font-family: inherit;
+  background: white;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--secondary);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+select {
+  color: var(--dark);
+}
+
+select option {
+  color: var(--dark);
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.add-btn {
+  background: var(--success);
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background: #059669;
+}
+
+.delete-btn {
+  background: var(--danger);
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+  color: var(--dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  display: grid;
+  gap: 24px;
+}
+
+.dashboard-header {
+  text-align: center;
+  background: white;
+  padding: 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.date-info {
+  color: var(--secondary);
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.stat-card {
+  background: white;
+  padding: 8px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+}
+
+.stat-card:hover {
+  border-color: var(--primary);
+}
+
+.stat-card.primary { border-left: 4px solid var(--primary); }
+.stat-card.success { border-left: 4px solid var(--success); }
+.stat-card.warning { border-left: 4px solid var(--warning); }
+.stat-card.danger { border-left: 4px solid var(--danger); }
+.stat-card.info { border-left: 4px solid var(--info); }
+.stat-card.secondary { border-left: 4px solid var(--secondary); }
+
+.stat-icon {
+  font-size: 9px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 28px;
+  background: var(--light);
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stat-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.stat-label {
+  color: var(--secondary);
+  font-weight: 500;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.dashboard-section {
+  background: white;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.dashboard-section:hover {
+  border-color: var(--primary);
+}
+
+.dashboard-section h3 {
+  margin-bottom: 20px;
+  color: var(--dark);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.alerts-list, .appointments-preview, .activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alert-item, .appointment-item, .activity-item {
+  padding: 8px;
+  background: var(--light);
+  border-radius: var(--radius);
+  font-size: 12px;
+}
+
+/* Pet Management System Styles */
+.list-container {
+  background: white;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.list-container:hover {
+  border-color: var(--primary);
+}
+
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pet-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px;
+  transition: all 0.2s;
+}
+
+.pet-card:hover {
+  border-color: var(--primary);
+}
+
+.pet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pet-header h3 {
+  color: var(--dark);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.pet-species {
+  background: var(--light);
+  color: var(--secondary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.pet-details {
+  margin-bottom: 16px;
+}
+
+.pet-details {
+  margin-bottom: 16px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pet-details p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--dark);
+  display: flex;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--light);
+}
+
+.pet-details p:last-child {
+  border-bottom: none;
+}
+
+.pet-details strong {
+  color: var(--dark);
+  font-weight: 500;
+  min-width: 100px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.pet-details span {
+  color: var(--dark);
+  flex: 1;
+}
+
+.medical-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.medical-info h4 {
+  color: var(--dark);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.medical-info p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--dark);
+  display: flex;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--light);
+}
+
+.medical-info p:last-child {
+  border-bottom: none;
+}
+
+.medical-info strong {
+  color: var(--dark);
+  font-weight: 500;
+  min-width: 120px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.medical-info span {
+  color: var(--dark);
+  flex: 1;
+}
+
+.summary-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.summary-stats .stat {
+  background: var(--light);
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+.status-badges {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: none;
+  border: none;
+}
+
+.badge.vaccinated {
+  background: var(--success);
+  color: white;
+}
+
+.badge.not-vaccinated {
+  background: var(--danger);
+  color: white;
+}
+
+.badge.consulted {
+  background: var(--primary);
+  color: white;
+}
+
+.badge.not-consulted {
+  background: var(--danger);
+  color: white;
+}
+
+.no-data {
+  text-align: center;
+  color: var(--secondary);
+  font-style: italic;
+  padding: 40px;
+  background: var(--light);
+  border-radius: var(--radius);
+  margin: 20px 0;
+}
+
+/* Appointments and Medical Records */
+.appointments-grid, .records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.appointment-card, .record-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px;
+  transition: all 0.2s;
+}
+
+.appointment-card:hover, .record-card:hover {
+  border-color: var(--primary);
+}
+
+.appointment-header, .record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.appointment-info h4, .record-info h4 {
+  color: var(--dark);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+}
+
+.appointment-type, .record-type {
+  background: var(--light);
+  color: var(--secondary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.appointment-details, .record-details {
+  margin-bottom: 16px;
+}
+
+.appointment-details p, .record-details p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--dark);
+  display: flex;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--light);
+}
+
+.appointment-details p:last-child, .record-details p:last-child {
+  border-bottom: none;
+}
+
+.appointment-details strong, .record-details strong {
+  color: var(--dark);
+  font-weight: 500;
+  min-width: 80px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.appointment-details span, .record-details span {
+  color: var(--dark);
+  flex: 1;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: none;
+  margin-top: 8px;
+  display: inline-block;
+  border: none;
+}
+
+.status-badge.scheduled {
+  background: var(--primary);
+  color: white;
+}
+
+.status-badge.completed {
+  background: var(--success);
+  color: white;
+}
+
+.status-badge.cancelled {
+  background: var(--danger);
+  color: white;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    padding: 16px;
+  }
+  
+  .header {
+    padding: 20px;
+  }
+  
+  .header-top {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .header-controls {
+    justify-content: center;
+  }
+  
+  .search-input {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .nav-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkbox-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .detail-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .pet-grid, .appointments-grid, .records-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reports Page Styles */
+.reports {
+  background: white;
+  padding: 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.reports:hover {
+  border-color: var(--primary);
+}
+
+.report-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.report-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  background: white;
+}
+
+.export-btn {
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  background: #1d4ed8;
+}
+
+.report-content {
+  margin-top: 20px;
+}
+
+.report-stats, .vaccination-stats, .financial-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.reports .stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.reports .stat-card:hover {
+  border-color: var(--primary);
+}
+
+.reports .stat-card h3 {
+  color: var(--dark);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 12px;
+  background: var(--light);
+  border-radius: var(--radius);
+}
+
+.stat-item .stat-number {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.stat-item .stat-label {
+  font-size: 12px;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+.species-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.species-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--light);
+}
+
+.species-item:last-child {
+  border-bottom: none;
+}
+
+.species-name {
+  min-width: 60px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.species-bar {
+  flex: 1;
+  height: 16px;
+  background: var(--light);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.species-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+
+.species-count {
+  min-width: 30px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.vaccination-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.vaccination-item {
+  text-align: center;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--light);
+}
+
+.vaccination-item .count {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.vaccination-item .label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.vaccination-item.vaccinated .count {
+  color: var(--success);
+}
+
+.vaccination-item.not-vaccinated .count {
+  color: var(--danger);
+}
+
+.vaccination-item.upcoming .count {
+  color: var(--warning);
+}
+
+.pets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pet-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--light);
+  border-radius: var(--radius);
+}
+
+.pet-name {
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 12px;
+}
+
+.pet-owner {
+  color: var(--secondary);
+  font-size: 12px;
+}
+
+.financial-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.financial-item {
+  text-align: center;
+  padding: 12px;
+  background: var(--light);
+  border-radius: var(--radius);
+}
+
+.financial-item .amount {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 4px;
+}
+
+.financial-item .label {
+  font-size: 12px;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+.revenue-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.revenue-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--light);
+  border-radius: var(--radius);
+}
+
+.service-type {
+  font-weight: 500;
+  color: var(--dark);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.service-revenue {
+  font-weight: 600;
+  color: var(--success);
+  font-size: 12px;
+}
