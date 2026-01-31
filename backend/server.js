@@ -26,6 +26,19 @@ mongoose.connect(process.env.MONGODB_URI)
 mongoose.set('debug', true);
 
 // Test route for database connection
+app.get('/', (req, res) => {
+  res.json({
+    message: 'PetPals Management System API',
+    status: 'Server is running',
+    endpoints: {
+      pets: '/api/pets',
+      appointments: '/api/appointments',
+      medical: '/api/medical-history',
+      test: '/api/test'
+    }
+  });
+});
+
 app.get('/api/test', (req, res) => {
   const dbStatus = mongoose.connection.readyState;
   const status = {
