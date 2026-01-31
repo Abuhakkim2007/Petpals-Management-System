@@ -8,12 +8,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Simple test route
+
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend API is working!', timestamp: new Date() });
 });
 
-// MongoDB connection test
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ MongoDB connected successfully');
